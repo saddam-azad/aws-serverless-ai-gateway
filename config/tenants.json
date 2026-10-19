@@ -1,0 +1,28 @@
+{
+  "tenants": {
+    "contoso": {
+      "token_quota_per_hour": 50000000,
+      "default_model": "mock-a",
+      "allowed_models": ["mock-a", "mock-b", "model-a", "model-b"],
+      "fallbacks": { "mock-a": ["mock-b"], "model-a": ["model-b"] },
+      "apps": {
+        "knowledge-bot": {
+          "default_model": "mock-b",
+          "allowed_models": ["mock-b", "model-c"]
+        }
+      }
+    },
+    "fabrikam": {
+      "token_quota_per_hour": 20000,
+      "default_model": "mock-b",
+      "allowed_models": ["mock-b", "model-c"],
+      "fallbacks": {}
+    }
+  },
+  "users": [
+    { "username": "contoso-support", "tenant": "contoso", "app": "support-assistant" },
+    { "username": "contoso-devassist", "tenant": "contoso", "app": "developer-assistant" },
+    { "username": "contoso-knowledge", "tenant": "contoso", "app": "knowledge-bot" },
+    { "username": "fabrikam-docs", "tenant": "fabrikam", "app": "document-summarizer" }
+  ]
+}

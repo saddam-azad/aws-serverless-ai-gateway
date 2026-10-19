@@ -1,0 +1,7 @@
+{
+  "mock-a": "mock:flaky",
+  "mock-b": "mock:steady",
+  "model-a": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "model-b": "us.amazon.nova-lite-v1:0",
+  "model-c": "us.amazon.nova-micro-v1:0"
+}

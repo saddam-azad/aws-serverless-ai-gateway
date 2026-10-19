@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Gateway Demo</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --text: #16181d; --muted: #5d6470; --line: #dde1e7;
+    --accent: #2f5bd3; --ok: #1d7a46; --warn: #a35a00; --bad: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #111317; --panel: #1a1d23; --text: #e8eaee; --muted: #9aa1ad; --line: #2c313a;
+            --accent: #7c9cff; --ok: #5cc98a; --warn: #f0b252; --bad: #ff8a80; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+  label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--muted); }
+  select, textarea, button, input { font: inherit; color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  textarea { width: 100%; min-height: 70px; resize: vertical; }
+  button { background: var(--accent); color: #fff; border: 0; cursor: pointer; font-weight: 600; padding: 9px 18px; }
+  button:disabled { opacity: .5; cursor: default; }
+  .check { flex-direction: row; align-items: center; gap: 6px; }
+  #answer { white-space: pre-wrap; min-height: 120px; font-size: 16px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .stat { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+  .stat b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 12px; color: var(--muted); }
+  .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  code { font-size: 12px; color: var(--muted); word-break: break-all; }
+</style>
+</head>
+<body>
+<main>
+  <h1>AI International: gate demo</h1>
+  <p class="sub">Cognito → AppSync Events → Lambda → Bedrock, streamed token by token.</p>
+
+  <section class="panel">
+    <div class="row">
+      <label>Passenger (user)
+        <select id="user"></select>
+      </label>
+      <label>Flight (model)
+        <select id="model">
+          <option value="">Tenant default</option>
+          <option>mock-a</option><option>mock-b</option>
+          <option>model-a</option><option>model-b</option><option>model-c</option>
+        </select>
+      </label>
+      <label>Max tokens
+        <input id="maxTokens" type="number" value="300" min="1" max="4096" style="width:100px">
+      </label>
+      <label class="check"><input id="cacheable" type="checkbox"> Cacheable</label>
+    </div>
+    <p></p>
+    <textarea id="prompt">Summarize this customer's last five tickets and suggest a next step.</textarea>
+    <p></p>
+    <button id="send">Board</button>
+  </section>
+
+  <section class="panel">
+    <div class="stats">
+      <div class="stat"><span>Status</span><b id="sStatus">–</b></div>
+      <div class="stat"><span>Time to first token</span><b id="sTtft">–</b></div>
+      <div class="stat"><span>Total latency</span><b id="sLatency">–</b></div>
+      <div class="stat"><span>Model</span><b id="sModel">–</b></div>
+      <div class="stat"><span>Tokens in / out</span><b id="sTokens">–</b></div>
+      <div class="stat"><span>Cache / fallback</span><b id="sRoute">–</b></div>
+    </div>
+    <p><code id="rid"></code></p>
+    <div id="answer"></div>
+  </section>
+</main>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
